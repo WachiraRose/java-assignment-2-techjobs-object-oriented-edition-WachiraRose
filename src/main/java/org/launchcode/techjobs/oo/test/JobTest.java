@@ -60,6 +60,60 @@ public class JobTest {
 
     }
 
+    // checking that
+    // When passed a job object it should return a string that contains a blank line before and after the job information.
+    // Label for ech field followed by the data stored in that field. Each field should be on its own line.
+    // If a field is empty, the method should add, “Data not available” after the label.
+    @Test
+    public void testToStringStartsAndEndsWithNewLine(){
+        Job jobC = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        String jobString = jobC.toString();
+        assertEquals(jobString.charAt(0),'\n');
+        assertEquals( jobString.charAt(jobString.length()-1), '\n');
+
+    }
+
+    @Test
+    public void testToStringContainsCorrectLabelsAndData(){
+        Job jobD = new Job("Product tester", new Employer("ACME"), new Location("Desert"), new PositionType("Quality control"), new CoreCompetency("Persistence"));
+        String jobString1 = jobD.toString();
+
+        assertEquals(jobString1, String.format("\nID: %d\nName: Product tester\nEmployer: ACME\nLocation: Desert\nPosition Type: Quality control\nCore Competency: Persistence\n", jobD.getId()));
+
+        assertTrue(jobString1.contains("ID: "));
+
+        assertTrue(jobString1.contains("Name: "));
+        assertTrue(jobString1.contains("Product tester"));
+
+        assertTrue(jobString1.contains("Employer: "));
+        assertTrue(jobString1.contains("ACME"));
+
+        assertTrue(jobString1.contains("Location: "));
+        assertTrue(jobString1.contains("Desert"));
+
+        assertTrue(jobString1.contains("Position Type: "));
+        assertTrue(jobString1.contains("Quality control"));
+
+        assertTrue(jobString1.contains("Core Competency: "));
+        assertTrue(jobString1.contains("Persistence"));
+    }
+
+    @Test
+    public void testToStringHandlesEmptyField(){
+        Job nusuJob1 = new Job("Product tester", new Employer("ACME"),  new Location(""), new PositionType(""), new CoreCompetency(""));
+        assertNotEquals(nusuJob1.toString().indexOf("Data not available"), -1);
+        // 3 empty fields - should be split into an array of length 4
+        assertEquals(nusuJob1.toString().split("Data not available").length, 4);
+
+        // test the empty Job constructor - returns a Job object with all fields but id being null
+        Job hakunaJob1 = new Job();
+        assertEquals(hakunaJob1.toString(), "OOPS! This job does not seem to exist.");
+
+        // test 5-parameter constructor with all parameters being empty strings
+        Job hakunaJob2 = new Job("", new Employer(""), new Location(""), new PositionType(""), new CoreCompetency(""));
+        assertEquals(hakunaJob2.toString(), "OOPS! This job does not seem to exist.");
+    }
+
 
     }
 

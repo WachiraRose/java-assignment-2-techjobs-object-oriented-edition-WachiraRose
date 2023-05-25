@@ -2,7 +2,7 @@ package org.launchcode.techjobs.oo;
 
 import java.util.Objects;
 
-public class Job {
+public class Job{
 
     private int id;
     private static int nextId = 1;
@@ -13,16 +13,10 @@ public class Job {
     private PositionType positionType;
     private CoreCompetency coreCompetency;
 
-    // TODO: Add two constructors - one to initialize a unique ID and a second to initialize the
-    //  other five fields. The second constructor should also call the first in order to initialize
-    //  the 'id' field.
-    // Constructor for unique id
     public Job(){
-        this.id = nextId;
+        id = nextId;
         nextId++;
     }
-
-    // Constructor to initialize the five fields
 
     public Job(String name, Employer employer, Location location, PositionType positionType, CoreCompetency coreCompetency) {
         this();
@@ -33,27 +27,64 @@ public class Job {
         this.coreCompetency = coreCompetency;
     }
 
-
-    // TODO: Add custom equals and hashCode methods. Consider two Job objects "equal" when their id fields
-    //  match.
     @Override
-    public boolean equals(Object o){
-        if(this == o) return true;
-        if( o== null|| getClass() != o.getClass()) return false;
-        Job job =(Job) o;
-        return id == job.id;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null)  return false;
+        if (this.getClass() != o.getClass()) return false;
+        Job job = (Job) o;
+        return job.id == this.id;
     }
 
     @Override
-    public int hashCode(){
-        return Objects.hash(id);
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
+    @Override
+    public String toString() {
+        // retrieve Job field values
+        String name = this.getName() == "" || this.getName() == null ? "Data not available" : this.getName();
 
+        String employer = this.getEmployer() == null || this.getEmployer().getValue() == "" ?
+                "Data not available" : this.getEmployer().getValue();
+
+        String location = this.getLocation() == null || this.getLocation().getValue() == "" ?
+                "Data not available" : this.getLocation().getValue();
+
+        String positionType = this.getPositionType() == null || this.getPositionType().getValue() == "" ?
+                "Data not available" : this.getPositionType().getValue();
+
+        String coreCompetency = this.getCoreCompetency() == null || this.getCoreCompetency().getValue() == "" ?
+                "Data not available" : this.getCoreCompetency().getValue();
+
+        // return customized string for an empty Job
+        if (name ==  "Data not available" &&
+                employer ==  "Data not available" &&
+                location ==  "Data not available" &&
+                positionType ==  "Data not available" &&
+                coreCompetency ==  "Data not available") {
+            return "OOPS! This job does not seem to exist.";
+        }
+
+        return String.format(
+                "\n" +
+                        "ID: %s\n" +
+                        "Name: %s\n" +
+                        "Employer: %s\n" +
+                        "Location: %s\n" +
+                        "Position Type: %s\n" +
+                        "Core Competency: %s\n",
+                this.getId(), name, employer, location, positionType, coreCompetency
+        );
+    }
 
     // TODO: Add getters for each field EXCEPT nextId. Add setters for each field EXCEPT nextID
     //  and id.
-    // getter and setter name
+
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -63,8 +94,6 @@ public class Job {
         this.name = name;
     }
 
-    // getter and setter employer
-
     public Employer getEmployer() {
         return employer;
     }
@@ -72,8 +101,6 @@ public class Job {
     public void setEmployer(Employer employer) {
         this.employer = employer;
     }
-
-    // getter and setter location
 
     public Location getLocation() {
         return location;
@@ -83,8 +110,6 @@ public class Job {
         this.location = location;
     }
 
-    // getter and setter positionType
-
     public PositionType getPositionType() {
         return positionType;
     }
@@ -93,9 +118,6 @@ public class Job {
         this.positionType = positionType;
     }
 
-    // getter and setter coreCompetency
-
-
     public CoreCompetency getCoreCompetency() {
         return coreCompetency;
     }
@@ -103,11 +125,4 @@ public class Job {
     public void setCoreCompetency(CoreCompetency coreCompetency) {
         this.coreCompetency = coreCompetency;
     }
-
-    // Getter for id
-    public int getId() {
-        return id;
-    }
-
-
 }
